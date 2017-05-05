@@ -13,20 +13,25 @@ TODO
     1) flex 설명
     2) justifyContent, alignItems 설명
     3) props 설명
-5.
+5. 새로운 component 클래스 추가
+6. 간단한 스타일 적용
+7. FriendListItem 제작
+    1) flex를 적용하여 레이아웃 만들기
+    2) Button을 View로 감싸 스타일 적용
+    3) props를 이용하여 용도에 따라 텍스트 변경
  */
 
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, StyleSheet, Button } from 'react-native';
+import { AppRegistry, Text, View, StyleSheet, Button, ScrollView } from 'react-native';
 
 export default class Sample extends Component {
     render() {
         return (
-            <View>
+            <ScrollView>
                 <Navigation />
                 <FriendRequestList />
                 <MightKnowFriendList />
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -60,7 +65,15 @@ class FriendRequestList extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>친구 요청</Text>
+                <Text style={styles.listText}>친구 요청</Text>
+                <FriendListItem
+                    yesText="수락"
+                    noText="거절"
+                />
+                <FriendListItem
+                    yesText="수락"
+                    noText="거절"
+                />
                 <FriendListItem
                     yesText="수락"
                     noText="거절"
@@ -74,7 +87,15 @@ class MightKnowFriendList extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>알 수도 있는 사람</Text>
+                <Text style={styles.listText}>알 수도 있는 사람</Text>
+                    <FriendListItem
+                        yesText="친구 추가"
+                        noText="삭제"
+                    />
+                    <FriendListItem
+                        yesText="친구 추가"
+                        noText="삭제"
+                    />
                     <FriendListItem
                         yesText="친구 추가"
                         noText="삭제"
@@ -135,7 +156,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderWidth: 0.5,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 10
+    },
+    listText: {
+        marginBottom: 5
     },
     profile: {  // 프로필 사진
         flex: 1,
@@ -146,16 +171,18 @@ const styles = StyleSheet.create({
         height: 100
     },
     friendInfo: {
-        flex: 3
+        flex: 3,
+        padding: 5
     },
-    confirm: {
+    confirm: {  // Button 자체에 style이 적용되지 않음
+                // 그렇기 때문에 Button을 View로 감싸야 됨
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10
     },
-    yes: {
+    yes: {  // Button이 아니라 감싸고 있는 View에 style을 적용함
         flex: 1,
         marginRight: 5
     },
