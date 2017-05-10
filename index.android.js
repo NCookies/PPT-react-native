@@ -24,13 +24,61 @@ TODO
 import React, { Component } from 'react';
 import { AppRegistry, Text, View, StyleSheet, Button, ScrollView } from 'react-native';
 
+// import update from 'react-addons-update';
+
 export default class Sample extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            friendRequests: [
+                {
+                    name: "권장호",
+                    withFriends: 5
+                }, {
+                    name: "김기준",
+                    withFriends: 3
+                }
+            ],
+            mightKnowFriends: [
+                {
+                    name: "김기황",
+                    withFriends: 4
+                }, {
+                    name: "김대혁",
+                    withFriends: 1
+                }
+            ]
+        }
+    }
+
+    componentDidMount() {
+        // 여기서 ajax 등 비동기 통신을 통해 데이터를 받아옴
+        const requests = [
+            ...this.state.friendRequests,
+            {
+                name: "김성래",
+                withFriends: 3
+            }
+        ]
+
+        this.setState({
+            friendRequests: requests
+        })
+    }
+
     render() {
         return (
             <ScrollView>
                 <Navigation />
-                <FriendRequestList />
-                <MightKnowFriendList />
+                <FriendRequestList
+                    list={this.state.friendRequests}
+                />
+
+                <MightKnowFriendList
+                    list={this.state.mightKnowFriends}
+                />
             </ScrollView>
         );
     }
@@ -62,22 +110,24 @@ class NavButton extends Component {
 }
 
 class FriendRequestList extends Component {
+    constructor(props) {
+        super(props)
+
+        console.log(this.props.list);
+
+    }
+
     render() {
+
+        let requests = this.props.list.map((a, i) => {
+            return <FriendListItem key={i} name={a.name} withFriends={a.withFriends} yesText="수락" noText="거절" />
+        })
+
         return (
             <View style={styles.container}>
                 <Text style={styles.listText}>친구 요청</Text>
-                <FriendListItem
-                    yesText="수락"
-                    noText="거절"
-                />
-                <FriendListItem
-                    yesText="수락"
-                    noText="거절"
-                />
-                <FriendListItem
-                    yesText="수락"
-                    noText="거절"
-                />
+
+                {requests}
             </View>
         )
     }
@@ -85,21 +135,16 @@ class FriendRequestList extends Component {
 
 class MightKnowFriendList extends Component {
     render() {
+
+        let requests = this.props.list.map((a, i) => {
+            return <FriendListItem key={i} name={a.name} withFriends={a.withFriends} yesText="친구 추가" noText="삭제" />
+        })
+
         return (
             <View style={styles.container}>
                 <Text style={styles.listText}>알 수도 있는 사람</Text>
-                    <FriendListItem
-                        yesText="친구 추가"
-                        noText="삭제"
-                    />
-                    <FriendListItem
-                        yesText="친구 추가"
-                        noText="삭제"
-                    />
-                    <FriendListItem
-                        yesText="친구 추가"
-                        noText="삭제"
-                    />
+
+                { requests }
             </View>
         )
     }
@@ -114,8 +159,8 @@ class FriendListItem extends Component {
                 </View>
 
                 <View style={styles.friendInfo}>
-                    <Text style={styles.name}>홍길동</Text>
-                    <Text style={styles.withFriends}>함께 아는 친구 5명</Text>
+                    <Text style={styles.name}>{this.props.name}</Text>
+                    <Text style={styles.withFriends}>함께 아는 친구 {this.props.withFriends}명</Text>
                     <View style={styles.confirm}>
                         <View style={styles.yes}>
                             <Button title={this.props.yesText}></Button>
