@@ -19,6 +19,10 @@ TODO
     1) flex를 적용하여 레이아웃 만들기
     2) Button을 View로 감싸 스타일 적용
     3) props를 이용하여 용도에 따라 텍스트 변경
+8. state와 props 설명
+    1) 초기화 및 setState를 이용하여 값 수정 설명
+    2) Lifecycle API 설명
+    3) props로 전달하여 컴포넌트 동적으로 생성
  */
 
 import React, { Component } from 'react';
